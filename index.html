@@ -399,6 +399,7 @@ function GT(o){const g=(k,i)=>o[k+i]??TUBEDF[k+i],L=[1,2,3].map(i=>g('l',i)),h=[
  return{l,r,P:C,cx:(x0+x1)/2,cy:(y0+y1)/2,w:x1-x0,h:y1-y0,hw:Math.max(...h)*2}}
 add('glasrohr','Glasrohr',G1,70,150,o=>{const g=GT(o),f=p=>`${(p[0]-g.cx).toFixed(1)},${(p[1]-g.cy).toFixed(1)}`;
  return`<path class="g" d="M${g.l.map(f).join('L')}M${g.r.map(f).join('L')}"/><path d="M${g.P.map(f).join('L')}" fill="none" stroke="transparent" stroke-width="${g.hw+8}" stroke-linecap="round" stroke-linejoin="round"/>`},{tube:1});
+DM.glasrohr.adpoly=o=>{const g=GT(o);return[...g.l,...g.r.slice().reverse()].map(p=>[p[0]-g.cx,p[1]-g.cy])};
 /* Stopfen nach Vorlage: bw = Breite, bh = Länge, o.holes = Anzahl der Bohrungen (0 bis 3, als Längsschnitt gezeichnet) */
 add('stopfen','Stopfen',G6,56,58,o=>{const W=(o.bw||44)/2,H=(o.bh||50)/2,B=W*.86,r=Math.min(6,H*.3),hwf=i=>Math.max(1,Math.min((+[o.hb,o.hb2,o.hb3][i]||6.4)/2,[0,.8*B,.36*W,.22*W][+o.holes||0])),m=+(o.mat??1),c=[['#c9cdd2','#8d9299','#686d74','#4a4e54'],['#eaa66b','#d5893f','#c0722f','#8d4a1c'],['#f3e6cc','#e6d3ab','#c4ae83','#9a8660'],['#dfe2e5','#c3c8cd','#9ba1a8','#6f757c']][m]||[],xs=[[],[0],[-W*.42,W*.42],[-W*.55,0,W*.55]][+o.holes||0],
  sh=`M${-W},${-H}H${W}L${B},${H-r}Q${B},${H} ${B-r},${H}H${-B+r}Q${-B},${H} ${-B},${H-r}Z`,
