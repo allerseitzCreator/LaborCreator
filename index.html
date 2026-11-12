@@ -663,7 +663,7 @@ function extraProps(o,d){const S=(k,ops,c)=>`<select data-k="${k}">${ops.map((n,
  if(o.t=='batterie')h+=row('Bauform',S('bk',['4,5 V Flachbatterie','9 V Blockbatterie','Knopfzelle','1,5 V Batterie'],+o.bk||0));
  if(o.t=='batterie'&&!+o.bk)h+=row('Streifen links °',rn('sa',-90,90,Math.round(+o.sa||0)))+row('Streifen rechts °',rn('sb',-90,90,Math.round(+o.sb||0)));
  if(o.t=='multimeter'){const mm=+o.mm||0,rs=MMR[mm],R=rs[+o.mr||0];h+=row('Messgröße',S('mm',['Spannung (V)','Stromstärke (A)'],mm))+row('Messbereich',S('mr',rs.map(r=>r.m+' '+r.u),o.mr))+row('Anzeige',rn('mv',0,R.m*1.2,o.mv,R.m/200))}
- if(o.t=='spritze')h+=row('Füllmenge (mL)',rn('plm',0,+o.vol||10,Math.round((o.pl??.5)*(+o.vol||10)*100)/100,(+o.vol||10)<=2?.05:(+o.vol||10)<=10?.1:.5))+row('Flüssigkeit',`<input type="color" data-k="col" value="${o.col||'#7cc4e4'}">`);
+ if(o.t=='spritze')h+=row('Füllmenge (mL)',rn('plm',0,+o.vol||10,Math.round((o.pl??.5)*(+o.vol||10)*100)/100,(+o.vol||10)<=2?.05:(+o.vol||10)<=10?.1:.5))+row('Flüssigkeit',`<input type="color" data-k="col" value="${(syrLy(o)[0]||{}).c||o.col||'#7cc4e4'}">`);
  if(DM[o.t].sub==SUBS[0]&&o.t.startsWith('ghs'))h+=row('Schriftzug',S('lb',['Ohne Schriftzug','Mit Schriftzug'],o.lb||0));
  if(o.t=='tropfen')h+=row('Lage',S('tl',['Hängend / fallend','Auf Unterlage'],o.tl||0))+row('Farbe',`<input type="color" data-k="col" value="${o.col||'#7cc4e4'}">`);
  if(o.t=='nagel')h+=row('Material',S('nm',['Eisen','Verzinkt','Kupfer'],o.nm||0))+row('Zustand',S('gl',['Nicht glühend','Glühend'],o.gl||0));
