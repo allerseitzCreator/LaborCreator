@@ -1135,7 +1135,7 @@ add('blumentopf','Blumentopf',G10,80,90,o=>{const W=(o.bw||60)/2,H=(o.bh||60)/2,
  return`<defs><linearGradient id="${id}" x1="0" x2="1"><stop offset="0" stop-color="${shadeHex(tc,1.2)}"/><stop offset=".5" stop-color="${tc}"/><stop offset="1" stop-color="${shadeHex(tc,.7)}"/></linearGradient></defs>${pl2}`
  +`<path d="M${f1(-W+3)},${-H+rh-.5}H${f1(W-3)}L${f1(W-3)},${-H+rh+2}H${f1(-W+3)}Z" fill="#4a3322" stroke="none"/>`+so
  +`<rect x="${-W-3}" y="${-H}" width="${2*W+6}" height="${rh}" rx="2" fill="url(#${id})" stroke="var(--ink)" stroke-width="2.2"/><path d="M${f1(-W*.7)},${-H+rh+3}V${H-5}" stroke="#fff" stroke-opacity=".3" stroke-width="2.4" stroke-linecap="round"/>`},
- {dyn:1,bw0:60,bh0:60,pw:30,ph:42,wl:'Breite',hl:'Höhe',init:{bp:1,fc:'#c4693f',bq:0,bs:1}});
+ {dyn:1,bw0:60,bh0:60,pw:30,ph:42,wl:'Breite',hl:'Höhe',init:{bp:0,fc:'#c4693f',bq:1,bs:0}});
 /* ===== Messen / Glasgeräte / Kleinteile / Zubehör: Ergänzungen ===== */
 const TXS=(x,y,t,fs,fill)=>`<text class="tx" x="${f1(x)}" y="${f1(y)}" text-anchor="middle" style="font-size:${fs}px;font-family:system-ui,sans-serif;${fill?'fill:'+fill+';':''}">${t}</text>`;
 const SENH=(x,y,w,h)=>`<rect x="${f1(x)}" y="${f1(y)}" width="${f1(w)}" height="${f1(h)}" fill="transparent" data-h="sen" style="cursor:grab"/>`;
