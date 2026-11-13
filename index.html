@@ -986,7 +986,7 @@ const G12='Gase';
 /* Etiketten (Sonstiges) */
 const ETX=(o,cx,cy)=>{const L=chem(o.txt||'').split('\n'),fs=o.fs||14,tc=o.tc||'#111111';return L.map((l,i)=>`<text class="tx" x="${f1(cx)}" y="${f1(cy-(L.length-1)*fs*.6+i*fs*1.2+fs*.35)}" text-anchor="middle" style="font-size:${fs}px;font-family:system-ui,Arial,sans-serif;fill:${tc}">${esc(l)}</text>`).join('')};
 const ETS=o=>{const b=+o.rb||0;return`fill="${o.col||'#ffffff'}" stroke="${b==3?(o.rc||'#1a1a1a'):b==2?'#d6001c':b==1?'#555':'#00000030'}" stroke-width="${b==3?Math.max(.5,+o.rw||2):b==2?3:b==1?1.3:1}"`};
-const ETD={dyn:1,bw0:90,bh0:40,pw:10,ph:10,wl:'Breite',hl:'Höhe',col:'#ffffff',txt:'Etikett',fs:14,etk:1,init:{rb:0,tc:'#111111'}};
+const ETD={dyn:1,bw0:90,bh0:40,pw:10,ph:10,wl:'Breite',hl:'Höhe',col:'#ffffff',txt:'Etikett',fs:14,etk:1,init:{rb:0,tc:'#111111',rc:'#1a1a1a',rw:2}};
 add('etikett','Etikett (rechteckig)',G5,100,50,o=>{const W=(o.bw||90)/2,H=(o.bh||40)/2;return`<rect x="${-W}" y="${-H}" width="${2*W}" height="${2*H}" rx="3" ${ETS(o)}/>${ETX(o,0,0)}`},ETD);
 add('etikett_rund','Etikett (rund)',G5,100,50,o=>{const W=(o.bw||90)/2,H=(o.bh||40)/2;return`<ellipse rx="${W}" ry="${H}" ${ETS(o)}/>${ETX(o,0,0)}`},{...ETD,bw0:60,bh0:60});
 add('etikett_schild','Anhängeetikett',G5,100,50,o=>{const W=(o.bw||90)/2,H=(o.bh||40)/2;return`<path d="M${-W+9},${-H}H${W-3}Q${W},${-H} ${W},${-H+3}V${H-3}Q${W},${H} ${W-3},${H}H${-W+3}Q${-W},${H} ${-W},${H-3}V${-H+9}Z" ${ETS(o)}/><circle cx="${-W+8}" cy="${-H+8}" r="2.6" fill="none" stroke="#777" stroke-width="1.2"/><path d="M${-W+8},${-H+8}C${-W-6},${-H-4} ${-W-12},${-H+14} ${-W-4},${-H+16}" fill="none" stroke="#b88a4a" stroke-width="1.4"/>${ETX(o,3,2)}`},{...ETD,bw0:80,bh0:44});
