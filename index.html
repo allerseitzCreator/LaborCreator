@@ -658,7 +658,7 @@ function extraProps(o,d){const S=(k,ops,c)=>`<select data-k="${k}">${ops.map((n,
  if(o.t=='schlauch'&&+o.hz==1)h+=row('Länge',rn('hl',8,200,o.hl||40,1))+row('Dicke',rn('cw',3,30,o.cw??12,.5));
  else if(o.t=='schlauch')h+=row('Biegen','<span style="font-size:11px;opacity:.8">Schlauch mit der Maus greifen &amp; ziehen · Doppelklick = Biegepunkt entfernen</span>')+row('Dicke',rn('cw',3,20,o.cw??12,.5));
  if(o.t=='kabel')h+=row('Biegen','<span style="font-size:11px;opacity:.8">Kabel mit der Maus greifen &amp; ziehen · Doppelklick = Biegepunkt entfernen</span>')+row('Dicke',rn('cw',2,8,o.cw??3.5,.5))+row('Ende links',S('e0',['Bananenstecker','Krokodilklemme'],o.e0||0))+row('Ende rechts',S('e1',['Bananenstecker','Krokodilklemme'],o.e1||0));
- if(['watte','glaswolle','stahlwolle'].includes(o.t))h+=row('Variante',rn('sd',1,50,o.sd||1));
+ if(['watte','glaswolle','stahlwolle','kupferwolle'].includes(o.t))h+=row('Variante',rn('sd',1,50,o.sd||1));
  if(o.t=='feststoff')h+=row('Form',S('fm',['Pulver','Granulat','Stückchen'],o.fm||0))+row('Farbe',`<input type="color" data-k="fc" value="${o.fc||'#e6dcc4'}">`)+row('Variante',rn('sd',1,50,o.sd||1));
  if(o.t=='gasblasen')h+=row('Anzahl',rn('n',3,80,o.n??18))+row('Blasengröße',rn('rm',2,12,o.rm??6,.5))+row('Variante',rn('sd',1,50,o.sd||1));
  if(o.t=='metall')h+=row('Metall',S('mt',['Kupfer','Eisen','Zink','Silber'],o.mt||0))+row('Biegewinkel °',rn('ba',-150,150,Math.round(o.ba??40)))+row('Drehung X °',rn('rx',0,360,Math.round(o.rx??12)))+row('Drehung Y °',rn('ry',0,360,Math.round(o.ry??-30)));
@@ -783,19 +783,27 @@ const WOOL=(kind,seed,grad,stroke,jit,nIn,nOut,fi,fo,hl)=>o=>{const{d,r,W,H}=BLO
  if(wt)for(let i=0;i<7;i++){const t=r()*6.283,q=Math.sqrt(r())*.7,rr=W*(.06+r()*.1);fib+=`<ellipse cx="${f1(Math.cos(t)*W*q)}" cy="${f1(Math.sin(t)*H*q+H*.1)}" rx="${f1(rr)}" ry="${f1(rr*.8)}" fill="${i%2?'#9a9a9a':'#ffffff'}" fill-opacity="${i%2?.1:.35}"/>`}
  fib=`<clipPath id="${cid}"><path d="${d}"/></clipPath><g clip-path="url(#${cid})">${fib}</g>`;
  let out='';for(let i=0;i<nOut;i++){const t=r()*6.283,x=Math.cos(t)*W*.98,y=Math.sin(t)*H*.98,l=2.5+r()*4,a=t+(r()-.5)*1.2;out+=`<path d="M${f1(x)},${f1(y)}Q${f1(x+Math.cos(a+.6)*l*.6)},${f1(y+Math.sin(a+.6)*l*.6)} ${f1(x+Math.cos(a)*l)},${f1(y+Math.sin(a)*l)}" fill="none" stroke="${fo}" stroke-width=".8" stroke-linecap="round"/>`}
- if(!wt){const cols=kind=='Sw'?['#2f3236','#2a2d31','#4a4f55','#5d636a']:[stroke,fi[0],fi[1],'#ffffff'],NL=kind=='Sw'?58:44;let lp='';
-  const cl=(x,y)=>{const q=Math.hypot(x/W,y/H);return q>1?[x/q,y/q]:[x,y]},NS=kind=='Sw'?80:120;
-  for(let i=0;i<NS;i++){const t0=r()*6.283,q0=Math.sqrt(r())*.95;let x=Math.cos(t0)*W*q0,y=Math.sin(t0)*H*q0,a=r()*6.283,sg=W*(.22+r()*.2),d=`M${f1(x)},${f1(y)}`;const w=kind=='Sw'?(.45+r()*.5):(.4+r()*.45);
+ if(!wt){const SWK=kind=='Sw'||kind=='Cu',cols=kind=='Sw'?['#2f3236','#2a2d31','#4a4f55','#5d636a']:kind=='Cu'?['#6b3418','#8a4a28','#b9743f','#d8935c']:[stroke,fi[0],fi[1],'#ffffff'],NL=SWK?58:44;let lp='';
+  const cl=(x,y)=>{const q=Math.hypot(x/W,y/H);return q>1?[x/q,y/q]:[x,y]},NS=SWK?80:120;
+  for(let i=0;i<NS;i++){const t0=r()*6.283,q0=Math.sqrt(r())*.95;let x=Math.cos(t0)*W*q0,y=Math.sin(t0)*H*q0,a=r()*6.283,sg=W*(.22+r()*.2),d=`M${f1(x)},${f1(y)}`;const w=SWK?(.45+r()*.5):(.4+r()*.45);
    for(let k=0;k<4;k++){a+=(r()-.5)*2.4;const mx=x+Math.cos(a)*sg*.5,my=y+Math.sin(a)*sg*.5;a+=(r()-.5)*1.6;[x,y]=cl(x+Math.cos(a)*sg,y+Math.sin(a)*sg);const[cx,cy]=cl(mx,my);d+=`Q${f1(cx)},${f1(cy)} ${f1(x)},${f1(y)}`}
    lp+=`<path d="${d}" fill="none" stroke="${cols[i%4]}" stroke-width="${f1(w)}" stroke-linecap="round" stroke-opacity=".9"/>`}
   if(0)for(let i=0;i<5;i++){const t=r()*6.283,x=Math.cos(t)*W*.95,y=Math.sin(t)*H*.95,l=W*(.25+r()*.3),a=t+(r()-.5)*.8;lp+=`<path d="M${f1(x)},${f1(y)}C${f1(x+Math.cos(a)*l*.5)},${f1(y+Math.sin(a)*l*.5+l*.3)} ${f1(x+Math.cos(a)*l)},${f1(y+Math.sin(a)*l-l*.2)} ${f1(x+Math.cos(a+.5)*l*1.2)},${f1(y+Math.sin(a+.5)*l*1.2)}" fill="none" stroke="${cols[0]}" stroke-width=".7" stroke-linecap="round"/>`}
-  return`<defs>${grad}</defs><path d="${d}" fill="url(#g${kind})" fill-opacity="${kind=='Sw'?.28:.6}" stroke="none"/>${lp}<ellipse cx="${f1(-W*.3)}" cy="${f1(-H*.36)}" rx="${f1(W*.34)}" ry="${f1(H*.2)}" fill="#fff" fill-opacity="${hl*.5}"/>`}
+  return`<defs>${grad}</defs><path d="${d}" fill="url(#g${kind})" fill-opacity="${SWK?.28:.6}" stroke="none"/>${lp}<ellipse cx="${f1(-W*.3)}" cy="${f1(-H*.36)}" rx="${f1(W*.34)}" ry="${f1(H*.2)}" fill="#fff" fill-opacity="${hl*.5}"/>`}
  return`<defs>${grad}</defs>${out}<path d="${d}" fill="url(#g${kind})" stroke="${stroke}" stroke-width="1.4" stroke-linejoin="round"/>${fib}<ellipse cx="${f1(-W*.3)}" cy="${f1(-H*.36)}" rx="${f1(W*.38)}" ry="${f1(H*.26)}" fill="#fff" fill-opacity="${hl}"/>`};
 const RG=(id,a,b,c)=>`<radialGradient id="g${id}" cx=".38" cy=".32" r=".8"><stop offset="0" stop-color="${a}"/><stop offset=".6" stop-color="${b}"/><stop offset="1" stop-color="${c}"/></radialGradient>`;
 const WD2={dyn:1,bw0:30,bh0:26,pw:16,ph:14,wl:'Durchmesser',hl:'Höhe',init:{sd:1}};
 add('watte','Wattebausch (3D)',G10,50,44,WOOL('Wt',11,RG('Wt','#ffffff','#ececec','#c6c6c6'),'#b4b4b4',.04,0,0,['#d4d4d4','#e6e6e6'],'#cfcfcf',.6),{...WD2});
 add('glaswolle','Glaswollebausch (3D)',G10,50,44,WOOL('Gw',23,RG('Gw','#fbfdfc','#e3ecee','#b5c5cb'),'#98adb5',.05,70,26,['#ffffff','#a5b9c1'],'#b9cbd1',.55),{...WD2});
 add('stahlwolle','Stahlwollebausch (3D)',G10,50,44,WOOL('Sw',37,RG('Sw','#b9bcc0','#858a90','#4b4f55'),'#2f3236',.14,110,34,['#2a2d31','#d8dce0'],'#555a60',.3),{...WD2});
+add('kupferwolle','Kupferwollebausch (3D)',G10,50,44,WOOL('Cu',53,RG('Cu','#f0b48a','#c06f42','#6e3a22'),'#5a2d18',.14,110,34,['#6b3418','#f6c298'],'#8a4c2c',.3),{...WD2});
+/* Kupferdrahtnetz: gewebtes Netz aus Kupferdraht, leicht perspektivisch mit umgeknickter Ecke */
+add('kupfernetz','Kupferdrahtnetz',G10,60,46,o=>{const W=(o.bw||44)/2,H=(o.bh||34)/2,n=Math.max(4,Math.round(W/2.6)),m=Math.max(4,Math.round(H/2.6)),id='kn'+(o.id||0),sk=H*.14,
+ P=(u,v)=>[f1(-W+u*2*W*(1-.06*v)+v*W*.06),f1(-H+v*2*H+sk*(u-.5)*(1-v*.4))];let a='',b='',c='';
+ for(let i=0;i<=n;i++){const u=i/n;a+=`M${P(u,0)}L${P(u,1)}`;if(i<n)c+=`M${P(u+.5/n,0)}L${P(u+.5/n,1)}`}
+ for(let j=0;j<=m;j++){const v=j/m;b+=`M${P(0,v)}L${P(1,v)}`}
+ const q=[P(0,0),P(1,0),P(1,1),P(0,1)],fo=`M${P(.74,0)}L${P(1,0)}L${P(1,.34)}Z`;
+ return`<defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9a47a"/><stop offset=".55" stop-color="#c06f42"/><stop offset="1" stop-color="#8a4a28"/></linearGradient><clipPath id="${id}c"><path d="M${q.join('L')}Z"/></clipPath></defs><path d="M${q.join('L')}Z" fill="url(#${id})" stroke="none"/><g clip-path="url(#${id}c)"><path d="${a}" stroke="#5e2f17" stroke-width=".7" fill="none" stroke-opacity=".85"/><path d="${b}" stroke="#f3bf98" stroke-width=".6" fill="none" stroke-opacity=".8"/><path d="${c}" stroke="#7a3d1e" stroke-width=".4" fill="none" stroke-opacity=".5"/></g><path d="M${q.join('L')}Z" fill="none" stroke="#5e2f17" stroke-width="1.5" stroke-linejoin="round"/><path d="${fo}" fill="#f6cfae" fill-opacity=".85" stroke="#7a3d1e" stroke-width=".9" stroke-linejoin="round"/>`},{dyn:1,bw0:44,bh0:34,pw:24,ph:16,wl:'Breite',hl:'Höhe'});
 /* Feststoffportion: Haufen aus Pulver (feine Punkte), Granulat (runde Körner) oder Stückchen (kantige Brocken) in wählbarer Farbe fc */
 add('feststoff','Feststoffportion',G10,60,36,o=>{const W=(o.bw||44)/2,H=(o.bh||24)/2,fm=+o.fm||0,fc=o.fc||'#e6dcc4',r=rngS((o.sd||1)*104729+fm),top=x=>H-2*H*Math.pow(Math.max(0,1-(x/W)*(x/W)),.85),inM=(x,y,m)=>Math.abs(x)<W-m&&y>=top(x)+m*.6&&y<=H-m*.3;
  let pts='';for(let i=0;i<=32;i++){const x=-W+2*W*i/32;pts+=(i?'L':'M')+f1(x)+','+f1(top(x))}pts+=`L${f1(W)},${f1(H)}L${f1(-W)},${f1(H)}Z`;
@@ -1288,7 +1296,7 @@ SCHL.glasstab=o=>{const H=(o.bh||100)/2,d=o.bw||5;return[{x:0,y:-H,a:-90,m:1,k:2
 SCHL.thermo=o=>{const T=THG(o);return[{x:0,y:T.yt,a:-90,m:1,k:2,off:-8,d:7},{x:0,y:T.yb,a:90,m:1,k:2,off:-8,d:7}]};
 SCHL.verbrennungsloeffel=o=>{const H=(o.bh||130)/2;return[{x:-8,y:-H+14,a:-90,m:1,k:2,off:-8,d:5}]};
 /* Anpassung an das Glasgerät: Feststoff, Partikel, Wolle usw. werden an der Innenkontur des darunterliegenden Gefäßes beschnitten und sitzen auf dessen Boden */
-const ADT=['feststoff','partikel','glaswolle','stoffgemisch','stahlwolle','watte'];
+const ADT=['feststoff','partikel','glaswolle','stoffgemisch','stahlwolle','kupferwolle','watte'];
 ADT.forEach(t=>{if(DM[t])DM[t].init=Object.assign({an:0},DM[t].init||{})});
 function pip(W,x,y){let c=false;for(let i=0,j=W.length-1;i<W.length;j=i++){const a=W[i],b=W[j];if((a[1]>y)!=(b[1]>y)&&x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])c=!c}return c}
 let VOBJ=null;
